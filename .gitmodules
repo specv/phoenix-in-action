@@ -1,0 +1,3 @@
+[submodule "submodules/code"]
+	path = submodules/code
+	url = git@github.com:specv/phoenix-in-action-code.git
