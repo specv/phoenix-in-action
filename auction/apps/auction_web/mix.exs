@@ -48,7 +48,10 @@ defmodule AuctionWeb.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      # if not introduce this dependency, Auction modules only 
+      # available in `auction` dir, not in `apps/auction_web` dir
+      {:auction, in_umbrella: true},
     ]
   end
 
