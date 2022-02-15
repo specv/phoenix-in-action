@@ -11,9 +11,17 @@ defmodule AuctionWeb.Application do
       # Start the Telemetry supervisor
       AuctionWeb.Telemetry,
       # Start the Endpoint (http/https)
-      AuctionWeb.Endpoint
+      AuctionWeb.Endpoint,
       # Start a worker by calling: AuctionWeb.Worker.start_link(arg)
       # {AuctionWeb.Worker, arg}
+
+      # mix phx.new.web auction_web --no-ecto
+      # Your web app requires a PubSub server to be running.
+      # The PubSub server is typically defined in a `mix phx.new.ecto` app.
+      # If you don't plan to define an Ecto app, you must explicitly start
+      # the PubSub in your supervision tree as:
+      # {Phoenix.PubSub, name: AuctionWeb.PubSub}
+      {Phoenix.PubSub, name: AuctionWeb.PubSub},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
