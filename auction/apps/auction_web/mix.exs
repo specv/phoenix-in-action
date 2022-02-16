@@ -49,6 +49,13 @@ defmodule AuctionWeb.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
+
+      # Your Phoenix application also needs to bring in some Ecto helpers. Even though you
+      # created your Phoenix app with the --no-ecto flag, there’s a specific package that’s nice
+      # to have when working with Ecto in Phoenix (which you’ll be doing eventually). The
+      # phoenix_ecto package provides all you need to interact with Ecto within Phoenix.
+      {:phoenix_ecto, "~> 4.0"},
+
       # if not introduce this dependency, Auction modules only 
       # available in `auction` dir, not in `apps/auction_web` dir
       {:auction, in_umbrella: true},

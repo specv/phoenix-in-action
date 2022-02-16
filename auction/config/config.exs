@@ -12,6 +12,9 @@ import Config
 config :auction_web,
   generators: [context_app: false]
 
+config :auction,
+  ecto_repos: [Auction.Repo]
+
 # Configures the endpoint
 config :auction_web, AuctionWeb.Endpoint,
   url: [host: "localhost"],

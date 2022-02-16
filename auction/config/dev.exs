@@ -53,3 +53,7 @@ config :auction_web, AuctionWeb.Endpoint,
       ~r"lib/auction_web/templates/.*(eex)$"
     ]
   ]
+
+config :auction, Auction.Repo,
+  database: "_build/auction.db",
+  journal_mode: :off
