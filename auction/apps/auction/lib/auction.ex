@@ -29,6 +29,11 @@ defmodule Auction do
     @repo.delete(Item, item)
   end
 
+  def edit_item(id) do
+    get_item(id)
+    |> Item.changeset()
+  end
+
   def update_item(%Item{} = item, updates) do
     # If the data in updates is consistent with the database, ecto will not actually request the database (use ecto_sqlite3 driver)
     item
