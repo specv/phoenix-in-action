@@ -17,7 +17,9 @@ defmodule AuctionWeb.ItemController do
   end
 
   def create(conn, %{"item" => params}) do
-    {:ok, item} = Auction.insert_item(params)
-    redirect(conn, to: Routes.item_path(conn, :show, item))
+    case Auction.insert_item(params) do
+      {:ok, item} -> redirect(conn, to: Routes.item_path(conn, :show, item))
+      {:error, item} -> render(conn, "new.html", item: item)
+    end
   end
 end
