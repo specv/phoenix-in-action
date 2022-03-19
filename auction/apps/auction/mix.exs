@@ -28,6 +28,8 @@ defmodule Auction.MixProject do
     [
       {:ecto_sql, "~> 3.7.2"},
       {:ecto_sqlite3, "~> 0.7.3"},
+      {:comeonin, "~> 5.3.3"},
+      {:pbkdf2_elixir, "~> 2.0"}
     ]
   end
 end
