@@ -1,7 +1,7 @@
 defmodule Auction do 
-  alias Auction.{Item, User}
+  alias Auction.{Repo, Item, User, Password}
 
-  @repo Auction.Repo
+  @repo Repo
 
   def list_items do
     @repo.all(Item)
@@ -43,6 +43,15 @@ defmodule Auction do
 
   def get_user(id) do
     @repo.get!(User, id)
+  end
+
+  def get_user_by_username_and_password(username, password) do
+    with user when not is_nil(user) <- @repo.get_by(User, %{username: username}),
+      ture <- Password.verify(password, user.hashed_password) do
+      user
+    else
+      _ -> Password.dummy_verify()
+    end
   end
 
   def new_user do
