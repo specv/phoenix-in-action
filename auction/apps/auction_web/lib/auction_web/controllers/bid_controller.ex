@@ -8,7 +8,7 @@ defmodule AuctionWeb.BidController do
       {:ok, bid} ->
         redirect(conn, to: Routes.item_path(conn, :show, bid.item_id))
       {:error, bid} ->
-        item = Auction.get_item(item_id)
+        item = Auction.get_item_with_bids(item_id)
         render(conn, AuctionWeb.ItemView, "show.html", item: item, bid: bid)
     end
   end
