@@ -15,7 +15,7 @@ defmodule Auction do
   def get_item_with_bids(id) do
     id
     |> get_item()
-    |> @repo.preload(bids: [:user])
+    |> @repo.preload(bids: {(from b in Bid, order_by: [desc: b.inserted_at]), [:user]})
   end
 
   def get_item_by(attrs) do
