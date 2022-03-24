@@ -79,6 +79,7 @@ defmodule Auction do
   def insert_bid(params) do
     %Bid{}
     |> Bid.changeset(params)
+    |> valid_created_at?()
     |> valid_amount?()
     |> @repo.insert()
   end
@@ -96,6 +97,21 @@ defmodule Auction do
 
     cond do
       Changeset.get_field(changeset, :amount) <= highest_bid -> Changeset.add_error(changeset, :amount, "must be greater than highest bid #{highest_bid}")
+      true -> changeset
+    end
+  end
+
+  defp valid_created_at?(%Changeset{valid?: false} = changeset) do
+    changeset
+  end
+  defp valid_created_at?(changeset) do
+    item =
+      changeset
+      |> Changeset.get_field(:item_id)
+      |> get_item()
+
+    cond do
+      DateTime.compare(DateTime.utc_now(), item.ends_at) == :gt -> Changeset.add_error(changeset, :amount, "submit disabled")
       true -> changeset
     end
   end

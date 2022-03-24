@@ -27,10 +27,10 @@
         <div class="form-group">
           <%= label f, :amount, "Bid amount", class: "control-label" %>
           <%= error_tag f, :amount %>
-          <%= number_input f, :amount, class: "form-control" %>
+          <%= number_input f, :amount, class: "form-control", disabled: DateTime.compare(DateTime.utc_now(), @item.ends_at) == :gt %>
         </div>
 
-        <%= submit "Submit", class: "btn btn-primary"%>
+        <%= submit "Submit", class: "btn btn-primary", disabled: DateTime.compare(DateTime.utc_now(), @item.ends_at) == :gt %>
       <% end %>
     <% end %>
   </div>
