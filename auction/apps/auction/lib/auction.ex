@@ -1,5 +1,6 @@
 defmodule Auction do
   import Ecto.Query
+  alias Ecto.Changeset
   alias Auction.{Bid, Item, Password, Repo, User}
 
   @repo Repo
@@ -78,7 +79,25 @@ defmodule Auction do
   def insert_bid(params) do
     %Bid{}
     |> Bid.changeset(params)
+    |> valid_amount?()
     |> @repo.insert()
+  end
+
+  defp valid_amount?(%Changeset{valid?: false} = changeset) do
+    changeset
+  end
+  defp valid_amount?(changeset) do
+    highest_bid =
+      changeset
+      |> Changeset.get_field(:item_id)
+      |> get_item()
+      |> get_highest_bid_for_item()
+      |> then(fn (bid) -> if(bid, do: bid.amount, else: 0) end)
+
+    cond do
+      Changeset.get_field(changeset, :amount) <= highest_bid -> Changeset.add_error(changeset, :amount, "must be greater than highest bid #{highest_bid}")
+      true -> changeset
+    end
   end
 
   def get_bids_for_user(user) do
@@ -90,5 +109,15 @@ defmodule Auction do
       limit: 10
 
     @repo.all(query)
+  end
+
+  def get_highest_bid_for_item(item) do
+    query =
+      from b in Bid,
+      where: b.item_id == ^item.id,
+      order_by: [desc: :amount],
+      limit: 1
+
+    @repo.one(query)
   end
 end
