@@ -16,7 +16,7 @@ defmodule AuctionWeb.BidController do
   defp require_logged_in_user(%{assigns: %{current_user: nil}} = conn, _opts) do
     conn
     |> put_flash(:error, "Nice try, friend. You must be logged in to bid.")
-    |> redirect(to: Resource.item_path(conn, :index))
+    |> redirect(to: Routes.item_path(conn, :index))
     |> halt()
   end
 

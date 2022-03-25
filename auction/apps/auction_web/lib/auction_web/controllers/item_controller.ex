@@ -1,5 +1,6 @@
 defmodule AuctionWeb.ItemController do
   use AuctionWeb, :controller
+  plug :require_logged_in_user
 
   def index(conn, _params) do
     items = Auction.list_items()
@@ -36,4 +37,17 @@ defmodule AuctionWeb.ItemController do
       {:error, item} -> render(conn, "edit.html", item: item)
     end
   end
+
+  defp require_logged_in_user(%{
+    assigns: %{current_user: nil},
+    private: %{phoenix_action: action},
+  } = conn, _opts) when action not in [:index, :show] do
+    conn
+    |> IO.inspect
+    |> put_flash(:error, "Nice try, friend. You must be logged in to manage item.")
+    |> redirect(to: Routes.item_path(conn, :index))
+    |> halt()
+  end
+
+  defp require_logged_in_user(conn, _opts), do: conn
 end
