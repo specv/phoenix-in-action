@@ -6,7 +6,7 @@ defmodule Auction do
   @repo Repo
 
   def list_items do
-    @repo.all(Item)
+    @repo.all from i in Item, order_by: [desc: i.inserted_at]
   end
 
   def get_item(id) do

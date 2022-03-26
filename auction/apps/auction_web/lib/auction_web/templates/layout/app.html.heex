@@ -6,7 +6,7 @@
     <%= if @current_user && @conn.private.phoenix_controller == AuctionWeb.ItemController && @conn.private.phoenix_action == :index do %>
       <%= link "New item", to: Routes.item_path(@conn, :new) %> |
     <% end %>
-    <%= if @current_user && @conn.private.phoenix_controller == AuctionWeb.ItemController && @conn.private.phoenix_action == :show do %>
+    <%= if @current_user && @current_user.id == if(@conn.assigns[:current_item], do: @conn.assigns.current_item.user_id, else: nil) && @conn.private.phoenix_controller == AuctionWeb.ItemController && @conn.private.phoenix_action == :show do %>
       <%= link "Edit item", to: Routes.item_path(@conn, :edit, @conn.params["id"]) %> |
     <% end %>
     <%= if @current_user do %>

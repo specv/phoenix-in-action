@@ -9,6 +9,7 @@ defmodule AuctionWeb.ItemController do
 
   def show(conn, %{"id" => id}) do
     item = Auction.get_item_with_bids(id)
+    conn = assign(conn, :current_item, item)
     bid = Auction.new_bid()
     render(conn, "show.html", item: item, bid: bid)
   end
@@ -31,11 +32,18 @@ defmodule AuctionWeb.ItemController do
     render(conn, "edit.html", item: item)
   end
 
+  @spec update(Plug.Conn.t(), map) :: Plug.Conn.t()
   def update(conn, %{"id" => id, "item" => params}) do
     item = Auction.get_item(id)
-    case Auction.update_item(item, params) do
-      {:ok, item} -> redirect(conn, to: Routes.item_path(conn, :show, item))
-      {:error, item} -> render(conn, "edit.html", item: item)
+    if item.user_id != conn.assigns.current_user.id do
+      conn
+      |> put_flash(:error, "Nice try, friend. You must be the owner of this item to edit it.")
+      |> redirect(to: Routes.item_path(conn, :show, item))
+    else
+      case Auction.update_item(item, params) do
+        {:ok, item} -> redirect(conn, to: Routes.item_path(conn, :show, item))
+        {:error, item} -> render(conn, "edit.html", item: item)
+      end
     end
   end
 
@@ -44,11 +52,9 @@ defmodule AuctionWeb.ItemController do
     private: %{phoenix_action: action},
   } = conn, _opts) when action not in [:index, :show] do
     conn
-    |> IO.inspect
     |> put_flash(:error, "Nice try, friend. You must be logged in to manage item.")
     |> redirect(to: Routes.item_path(conn, :index))
     |> halt()
   end
-
   defp require_logged_in_user(conn, _opts), do: conn
 end
