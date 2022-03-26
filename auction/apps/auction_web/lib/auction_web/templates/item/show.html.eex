@@ -2,7 +2,7 @@
 
 <ul>
   <li><strong>Description:</strong> <%= @item.description %></li>
-  <li><strong>Auction ends at:</strong> <%= @item.ends_at %></li>
+  <li><strong>Auction ends at:</strong> <%= format_datetime(@item.ends_at) %></li>
 </ul>
 
 <div style="display: flex; flex-direction: row;">

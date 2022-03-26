@@ -8,7 +8,7 @@ defmodule Auction.Item do
     field :ends_at, :utc_datetime
     belongs_to :user, Auction.User
     has_many :bids, Auction.Bid
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   def changeset(item, params \\ %{}) do

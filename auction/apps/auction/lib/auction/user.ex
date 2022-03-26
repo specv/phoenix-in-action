@@ -9,7 +9,7 @@ defmodule Auction.User do
     field :hashed_password, :string
     has_many :items, Auction.Item
     has_many :bids, Auction.Bid
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   def changeset(user, params \\ %{}) do

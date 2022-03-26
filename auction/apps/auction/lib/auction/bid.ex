@@ -6,7 +6,7 @@ defmodule Auction.Bid do
     field :amount, :integer
     belongs_to :item, Auction.Item
     belongs_to :user, Auction.User
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   def changeset(bid, params \\ %{}) do

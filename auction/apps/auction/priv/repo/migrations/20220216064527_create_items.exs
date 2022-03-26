@@ -17,7 +17,7 @@ defmodule Auction.Repo.Migrations.CreateItems do
       add :title, :string
       add :description, :string
       add :ends_at, :utc_datetime
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
   end
 end

@@ -6,7 +6,7 @@ defmodule Auction.Repo.Migrations.CreateUsers do
       add :username, :string
       add :email_address, :string
       add :hashed_password, :string
-      timestamps()
+      timestamps(type: :utc_datetime)
     end
 
     create unique_index(:users, [:username])

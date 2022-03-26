@@ -10,6 +10,7 @@ defmodule AuctionWeb.GlobalHelpers do
 
   def format_datetime(datetime) do
     datetime
-    |> Calendar.strftime("%Y-%m-%d %H:%M:%S")
+    |> Timex.to_datetime("Asia/Shanghai")
+    |> Timex.format!("%Y-%m-%d %H:%M:%S", :strftime)
   end
 end
