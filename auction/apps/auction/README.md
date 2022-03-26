@@ -19,3 +19,17 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/auction>.
 
+
+## Migration
+
+1. generate migration file from template
+`mix ecto.gen.migration {name}`
+
+2. edit migration file
+
+3. list migrations
+`mix ecto.migrations`
+
+5. migrate `mix ecto.migrate`
+
+6. rollback `mix ecto.rollback`

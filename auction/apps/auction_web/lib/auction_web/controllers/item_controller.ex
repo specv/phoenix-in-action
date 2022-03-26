@@ -19,6 +19,7 @@ defmodule AuctionWeb.ItemController do
   end
 
   def create(conn, %{"item" => params}) do
+    params = Map.put(params, "user_id", conn.assigns.current_user.id)
     case Auction.insert_item(params) do
       {:ok, item} -> redirect(conn, to: Routes.item_path(conn, :show, item))
       {:error, item} -> render(conn, "new.html", item: item)

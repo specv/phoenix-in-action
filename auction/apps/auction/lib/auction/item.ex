@@ -6,14 +6,15 @@ defmodule Auction.Item do
     field :title, :string
     field :description, :string
     field :ends_at, :utc_datetime
+    belongs_to :user, Auction.User
     has_many :bids, Auction.Bid
     timestamps()
   end
 
   def changeset(item, params \\ %{}) do
     item
-    |> cast(params, [:title, :description, :ends_at])
-    |> validate_required(:title)
+    |> cast(params, [:user_id, :title, :description, :ends_at])
+    |> validate_required([:user_id, :title])
     |> validate_length(:title, min: 3)
     |> validate_length(:description, max: 200)
     |> validate_change(:ends_at, &validate/2)
